@@ -6,3 +6,9 @@
 * Spring Boot
 * Spring Batch
 * Spring MVC
+
+##### Build and Run:
+```
+mvn clean install
+mvn spring-boot:run
+```
