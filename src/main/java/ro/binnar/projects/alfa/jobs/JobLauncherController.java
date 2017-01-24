@@ -1,4 +1,4 @@
-package ro.binnar.projects.alfa;
+package ro.binnar.projects.alfa.jobs;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;

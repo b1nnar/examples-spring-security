@@ -1,4 +1,4 @@
-package ro.binnar.projects.alfa;
+package ro.binnar.projects.alfa.jobs;
 
 public class Person {
 
