@@ -1,5 +1,7 @@
 package ro.binnar.projects.alfa.fileupload;
 
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ro.binnar.projects.alfa.jobs.JobLauncherController;
 import ro.binnar.projects.alfa.storage.StorageService;
 import ro.binnar.projects.alfa.storage.exception.StorageFileNotFoundException;
 
@@ -29,10 +32,25 @@ public class FileUploadController {
 
 	@GetMapping("/")
 	public String listUploadedFiles(Model model) {
-		model.addAttribute("files",
-				storageService.loadAll()
-						.map(path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class, "serveFile", path.getFileName().toString()).build().toString())
-						.collect(Collectors.toList()));
+		List<String> files = storageService.loadAll().collect(Collectors.toList()).stream()
+				.map(path -> path.getFileName().toString())
+				.collect(Collectors.toList());
+		
+		Map<String, String> fileLinks = files.stream()
+				.collect(Collectors.toMap(
+						filename -> filename, 
+						filename -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class, "serveFile", filename).build().toString()
+				));
+	
+		Map<String, String> fileJobLinks = files.stream()
+				.collect(Collectors.toMap(
+						filename -> filename, 
+						filename -> MvcUriComponentsBuilder.fromMethodName(JobLauncherController.class, "launchJob", storageService.load(filename).toAbsolutePath().toUri().toString()).build().toString()
+				));
+		
+		model.addAttribute("files", files);
+		model.addAttribute("fileLinks", fileLinks);
+		model.addAttribute("fileJobLinks", fileJobLinks);
 
 		return "uploadForm";
 	}

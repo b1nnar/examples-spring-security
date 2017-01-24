@@ -2,7 +2,7 @@
 <body>
 
 	<div th:if="${message}">
-		<h2 th:text="${message}" />
+		<h2 th:text="${message}"></h2>
 	</div>
 
 	<div>
@@ -22,7 +22,10 @@
 
 	<div>
 		<ul>
-			<li th:each="file : ${files}"><a th:href="${file}" th:text="${file}" /></li>
+			<li th:each="file : ${files}">
+				<a th:href="${fileLinks.get(file)}" th:text="${fileLinks.get(file)}"></a>
+				<a th:href="${fileJobLinks.get(file)}" th:text="${fileJobLinks.get(file)}"></a>
+			</li>
 		</ul>
 	</div>
 
