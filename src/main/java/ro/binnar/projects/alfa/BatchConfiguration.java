@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 
@@ -44,10 +44,11 @@ public class BatchConfiguration {
 
 	@Bean
 	@StepScope
-	public FlatFileItemReader<Person> reader(@Value("#{jobParameters[pathToFile]}") String pathToFile) {
+	public FlatFileItemReader<Person> reader(@Value("#{jobParameters[pathToFile]}") String pathToFile) throws Exception {
 		FlatFileItemReader<Person> reader = new FlatFileItemReader<>();
 
-		reader.setResource(new ClassPathResource(pathToFile));
+		/*reader.setResource(new ClassPathResource(pathToFile));*/
+		reader.setResource(new UrlResource(pathToFile));
 		reader.setLineMapper(new DefaultLineMapper<Person>() {
 			{
 
@@ -85,7 +86,7 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public Job importUserJob(JobCompletionNotificationListener listener) {
+	public Job importUserJob(JobCompletionNotificationListener listener) throws Exception {
 		return jobBuilderFactory.get("importUserJob")
 				.incrementer(new RunIdIncrementer())
 				.listener(listener)
@@ -95,7 +96,7 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public Step step1() {
+	public Step step1() throws Exception {
 		return stepBuilderFactory.get("step1")
 				.<Person, Person>chunk(10)
 				.reader(reader(null))

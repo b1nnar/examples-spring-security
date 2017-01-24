@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -26,11 +27,11 @@ public class JobLauncherController {
 
 	@RequestMapping(value = "/launchJob", method = RequestMethod.GET)
 	@ResponseBody
-	public String launchJob() throws Exception {
+	public String launchJob(@RequestParam("pathToFile") String pathToFile) throws Exception {
 		JobParametersBuilder builder = new JobParametersBuilder();
 
 		builder.addLong("timestamp", System.currentTimeMillis());
-		builder.addString("pathToFile", "sample-data.csv");
+		builder.addString("pathToFile", pathToFile);
 
 		JobExecution jobExecution = jobLauncher.run(job, builder.toJobParameters());
 
