@@ -1,6 +1,11 @@
+# Apache Maven
+target/
+
+# Intelli IDEA
+.idea/
+*.iml
+
+# Eclipse
+.settings/
 .project
 .classpath
-
-target/
-bin/
-.settings/
