@@ -1,4 +1,4 @@
-package ro.binnar.projects.alfa;
+package ro.binnar.projects.tss;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
