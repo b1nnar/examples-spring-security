@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>DBA Page</title>
+</head>
+
+<body>
+<div>
+    Dear <strong th:text="${user}"></strong>, Welcome to DBA Page.
+    <a th:href="@{/logout}">Logout</a>
+</div>
+</body>
+
+</html>

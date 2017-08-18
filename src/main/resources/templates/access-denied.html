@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Access Denied Page</title>
+</head>
+
+<body>
+<div>
+    Dear <strong th:text="${user}"></strong>, You are not authorized to access this page.
+    <a th:href="@{/logout}">Logout</a>
+</div>
+</body>
+
+</html>
